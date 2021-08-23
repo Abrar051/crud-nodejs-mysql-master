@@ -33,24 +33,24 @@
     </table>
   </div>
 
-	<!-- Add New Product Modal-->
+	<!-- Add New Model-->
 	  <form action="/save" method="post">
         <div class="modal fade" id="myModalAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
          <div class="modal-dialog" role="document">
            <div class="modal-content">
              <div class="modal-header">
-               <h5 class="modal-title" id="exampleModalLabel">Add New Product</h5>
+               <h5 class="modal-title" id="exampleModalLabel">Add New data</h5>
                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                  <span aria-hidden="true">&times;</span>
                </button>
              </div>
              <div class="modal-body">
                <div class="form-group">
-                   <input type="text" name="product_name" class="form-control" placeholder="Product Name" required>
+                   <input type="text" name="product_name" class="form-control" placeholder="Name" required>
                </div>
 
                <div class="form-group">
-                   <input type="text" name="product_price" class="form-control" placeholder="Price" required>
+                   <input type="text" name="product_price" class="form-control" placeholder="Age" required>
                </div>
              </div>
              <div class="modal-footer">
@@ -62,13 +62,13 @@
         </div>
 	 </form>
 
-	 <!-- Edit Product Modal-->
+	 <!-- Edit Model-->
    <form action="/update" method="post">
        <div class="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Edit Product</h5>
+              <h5 class="modal-title" id="exampleModalLabel">Edit Details</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -92,13 +92,13 @@
        </div>
   </form>
 
-	 <!-- Delete Product Modal-->
+	 <!-- Delete Model-->
  	  <form id="add-row-form" action="/delete" method="post">
  	     <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
  	        <div class="modal-dialog">
  	           <div class="modal-content">
  	               <div class="modal-header">
-									 	<h5 class="modal-title" id="myModalLabel">Delete Product</h5>
+									 	<h5 class="modal-title" id="myModalLabel">Delete Data</h5>
  	                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
  	               </div>
  	               <div class="modal-body">
