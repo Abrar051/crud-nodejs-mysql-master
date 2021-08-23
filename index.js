@@ -48,9 +48,12 @@ app.post('/auth', function(request, response) {
   if (username && password) {
     conn.query('SELECT * FROM UserInfo WHERE USER = ? AND Password = ?', [username, password], function(error, results, fields) {
       if (results.length > 0) {
-        //request.session.loggedin = true;
-        //request.session.username = username;
-        response.redirect('/product/getAll');
+
+        //response.redires.render('unAuth',)});
+         return response.render('userProfile', {
+           results: results
+         });
+
       } else {
         response.redirect('unAuth');
 
@@ -67,7 +70,20 @@ app.get('/unAuth',(req, res) => {
 
     res.render('unAuth',)});
 
-app.get('/product/getAll',(req, res) => {
+app.get('/profileView',(req, res) => {
+
+  conn.query('SELECT * FROM UserInfo WHERE USER = ? AND Password = ?',
+      [username, password], function(error, results, fields) {
+        User_Type=req.body.User_Type;
+        Age=req.body.Age;
+
+  });
+  res.render('userProfile');
+});
+
+
+
+app.get('/productList',(req, res) => {
   let sql = "SELECT * FROM product";
   let query = conn.query(sql, (err, results) => {
     if(err) throw err;
