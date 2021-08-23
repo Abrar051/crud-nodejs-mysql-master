@@ -1,4 +1,3 @@
-
 const path = require('path');
 const express = require('express');
 const hbs = require('hbs');
@@ -29,7 +28,6 @@ app.use('/assets',express.static(__dirname + '/public'));
 
 
 /*app.get('/',(req, res) => {
-
   let sql = "SELECT * FROM UserInfo";
   let query = conn.query(sql, (err, results) => {
     if(err) throw err;
@@ -38,10 +36,35 @@ app.use('/assets',express.static(__dirname + '/public'));
     });
   });
 });*/
+//// changing here for login
+app.get('/', function(request, response) {
+  response.render('login');
+});
+
+app.post('/auth', function(request, response) {
+  console.log(request.body);
+  var username = request.body.username;
+  var password = request.body.password;
+  if (username && password) {
+    conn.query('SELECT * FROM UserInfo WHERE USER = ? AND Password = ?', [username, password], function(error, results, fields) {
+      if (results.length > 0) {
+        //request.session.loggedin = true;
+        //request.session.username = username;
+        response.redirect('/product/getAll');
+      } else {
+        response.send('Incorrect Username and/or Password!');
+      }
+      response.end();
+    });
+  } else {
+    response.send('Please enter Username and Password!');
+    response.end();
+  }
+});
+/////
 
 
-
-app.get('/',(req, res) => {
+app.get('/product/getAll',(req, res) => {
   let sql = "SELECT * FROM product";
   let query = conn.query(sql, (err, results) => {
     if(err) throw err;
@@ -65,7 +88,7 @@ app.get('/save',(req, res) => {
   // let sql = "INSERT INTO product SET ?";
   // let query = conn.query(sql, data,(err, results) => {
   //   if(err) throw err;
-    res.redirect('/');
+  res.redirect('/');
   // });
 });
 
@@ -83,11 +106,11 @@ app.post('/delete',(req, res) => {
   let sql = "DELETE FROM product WHERE product_id="+req.body.product_id+"";
   let query = conn.query(sql, (err, results) => {
     if(err) throw err;
-      res.redirect('/');
+    res.redirect('/');
   });
 });
 
 
-app.listen(8000, () => {
-  console.log('Server is running at port 8000');
+app.listen(4000, () => {
+  console.log('Server is running at port 4000');
 });

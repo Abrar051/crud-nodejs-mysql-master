@@ -15,6 +15,15 @@
     "express": "^4.16.3",
     "express-session": "^1.17.2",
     "hbs": "^4.0.1",
-    "mysql": "^2.16.0"
-  }
+    "mysql": "^2.16.0",
+    "nodemon": "^2.0.12"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Abrar051/crud-nodejs-mysql-master.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Abrar051/crud-nodejs-mysql-master/issues"
+  },
+  "homepage": "https://github.com/Abrar051/crud-nodejs-mysql-master#readme"
 }
