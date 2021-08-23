@@ -52,7 +52,8 @@ app.post('/auth', function(request, response) {
         //request.session.username = username;
         response.redirect('/product/getAll');
       } else {
-        response.send('Incorrect Username and/or Password!');
+        response.redirect('unAuth');
+
       }
       response.end();
     });
@@ -62,7 +63,9 @@ app.post('/auth', function(request, response) {
   }
 });
 /////
+app.get('/unAuth',(req, res) => {
 
+    res.render('unAuth',)});
 
 app.get('/product/getAll',(req, res) => {
   let sql = "SELECT * FROM product";
