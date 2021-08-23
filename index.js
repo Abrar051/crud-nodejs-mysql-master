@@ -28,6 +28,19 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/assets',express.static(__dirname + '/public'));
 
 
+/*app.get('/',(req, res) => {
+
+  let sql = "SELECT * FROM UserInfo";
+  let query = conn.query(sql, (err, results) => {
+    if(err) throw err;
+    res.render('login',{
+      results: results
+    });
+  });
+});*/
+
+
+
 app.get('/',(req, res) => {
   let sql = "SELECT * FROM product";
   let query = conn.query(sql, (err, results) => {
@@ -46,6 +59,16 @@ app.post('/save',(req, res) => {
     res.redirect('/');
   });
 });
+
+app.get('/save',(req, res) => {
+  // let data = {product_name: req.body.product_name, product_price: req.body.product_price};
+  // let sql = "INSERT INTO product SET ?";
+  // let query = conn.query(sql, data,(err, results) => {
+  //   if(err) throw err;
+    res.redirect('/');
+  // });
+});
+
 
 app.post('/update',(req, res) => {
   let sql = "UPDATE product SET product_name='"+req.body.product_name+"', product_price='"+req.body.product_price+"' WHERE product_id="+req.body.id;
