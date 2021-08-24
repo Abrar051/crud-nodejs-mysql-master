@@ -43,13 +43,13 @@ app.get('/', function(request, response) {
 
 app.post('/auth', function(request, response) {
   console.log(request.body);
-  var username = request.body.username;
-  var password = request.body.password;
+  let username = request.body.username;
+  let password = request.body.password;
   if (username && password) {
     conn.query('SELECT * FROM UserInfo WHERE USER = ? AND Password = ?', [username, password], function(error, results, fields) {
       if (results.length > 0) {
 
-        //response.redires.render('unAuth',)});
+        //response.render('unAuth',)});
          return response.render('userProfile', {
            results: results
          });
@@ -58,6 +58,8 @@ app.post('/auth', function(request, response) {
         response.redirect('unAuth');
 
       }
+
+      response.redirect('updateForm');
       response.end();
     });
   } else {
@@ -81,7 +83,40 @@ app.get('/profileView',(req, res) => {
   res.render('userProfile');
 });
 
+///update profile
 
+app.get('/updateProfile', function(request, response) {
+  response.render('updateForm');
+});
+//
+///////
+app.post('/updateUserInfo', function(request, response) {
+  console.log(request.body);
+  let email = request.body.email;
+  let name = request.body.name;
+  let password = request.body.password;
+  if (email && password) {
+    conn.query('SELECT * FROM UserInfo WHERE USER = ? AND Password = ?', [email, password], function(error, results, fields) {
+      if (results.length > 0) {
+        let sql = "UPDATE UserInfo SET User ="+req.body.email+"', User_type='"+req.body.name+"' WHERE Id="+req.body.id;
+
+        let query = conn.query(sql, (err, results) => {
+          if(err) throw err;
+          res.redirect('/profileView');
+        });
+      }
+      //response.redirect('updateForm');
+      response.end();
+    });
+  } else {
+    response.send('Please enter Username and Password!');
+    response.end();
+  }
+});
+
+
+
+//
 
 app.get('/productList',(req, res) => {
   let sql = "SELECT * FROM product";
@@ -113,7 +148,7 @@ app.get('/save',(req, res) => {
 
 
 app.post('/update',(req, res) => {
-  let sql = "UPDATE product SET product_name='"+req.body.product_name+"', product_price='"+req.body.product_price+"' WHERE product_id="+req.body.id;
+  let sql = "UPDATE product SET product_name="+req.body.product_name+"', product_price='"+req.body.product_price+"' WHERE product_id="+req.body.id;
   let query = conn.query(sql, (err, results) => {
     if(err) throw err;
     res.redirect('/');

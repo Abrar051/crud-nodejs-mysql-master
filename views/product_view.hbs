@@ -98,14 +98,14 @@
  	        <div class="modal-dialog">
  	           <div class="modal-content">
  	               <div class="modal-header">
-									 	<h5 class="modal-title" id="myModalLabel">Delete Data</h5>
+                       <h5 class="modal-title" id="myModalLabel">Delete Data</h5>
  	                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
  	               </div>
  	               <div class="modal-body">
-												 <strong>Are You Sure To Delete This Data?</strong>
+                       <strong>Are You Sure To Delete This Data?</strong>
  	               </div>
  	               <div class="modal-footer">
-									 		<input type="hidden" name="product_id" class="form-control product_id2" required>
+                       <input type="hidden" name="product_id" class="form-control product_id2" required>
  	                   	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
  	                  	<button type="submit" class="btn btn-success">Delete</button>
  	               </div>
@@ -129,12 +129,11 @@
         $('.product_id').val(product_id);
       });
 			//showing modal for delete record
-			$('#mytable').on('click','.delete',function(){
+        $('#mytable').on('click','.delete',function(){
         var product_id = $(this).data('id');
         $('#DeleteModal').modal('show');
         $('.product_id2').val(product_id);
       });
-
     });
 </script>
 </body>

@@ -117,6 +117,26 @@
             display: block;
             font-size: 30px;
         }
+        .btn-holder {
+            position:absolute;
+            bottom: 100px;
+            right: 100px;
+            transition-duration: 0.4s;
+        }
+        .button {
+            background-color: #52dccb; /* Green */
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+        .button1 {font-size: 30px;}
+        .button2 {font-size: 30px;}
+
     </style>
     <script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
 </head>
@@ -125,11 +145,13 @@
 <div class="wrapper">
     <div class="left">
         <h4>User</h4>
-        <thread>
+        <tbody>
+        {{#each results}}
             <tr>
-                <th>User</th>
+                <td>{{ User }}</td>
             </tr>
-        </thread>
+        {{/each}}
+        </tbody>
     </div>
     <div class="right">
         <div class="info">
@@ -187,7 +209,17 @@
             </div>
         </div>
     </div>
+        <div class="btn-holder">
+            <a href="/updateProfile">
+                <button id="update" class="button button1">Update</button>
+            </a>
+            <button id="delete" type="submit" class="button button2">Delete</button>
+        </div>
 </div>
+
+
+
+
 <script src="/assets/js/jquery-3.3.1.js"></script>
 <script src="/assets/js/bootstrap.js"></script>
 <script>
@@ -195,6 +227,7 @@
     var Age = $(this).data('Age');
     var Gender = $(this).data('Gender');
     var Height = $(this).data('Height');
+
 </script>
 
 </body>
