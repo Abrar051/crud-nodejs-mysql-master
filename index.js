@@ -78,6 +78,39 @@ app.get ('/updateProfile',(req,res)=>{
   res.render('dataUpdateForm');
 });
 
+
+app.get ('/deletePage',(req,res)=>{
+  res.render('deleteUser');
+});
+
+///delete user
+app.post ('/deletePage',(request,respond)=> {
+  console.log(request.body);
+  let username = request.body.username;
+  let password = request.body.password;
+  if (username && password) {
+    conn.query('SELECT * FROM UserInfo WHERE USER = ? AND Password = ?', [username, password], (error, results, fields) => {
+
+      if (results.length > 0) {
+        conn.query('DELETE FROM UserInfo WHERE USER =? AND Password=?', [username,password], (error, results, fields) => {
+          respond.render('deletePage');
+        });
+
+      } else {
+        respond.redirect('unAuth');
+      }
+    });
+  }
+});
+
+
+
+
+
+
+
+
+
 ///get username and pass then update database with profile
 
 app.post('/updatePage', function(request, response){
@@ -109,6 +142,19 @@ app.post('/updatePage', function(request, response){
     });
   }
 });
+
+////update done
+
+/// delete user data
+
+
+
+
+
+
+
+
+
 
 
 app.get('/profileView',(req, res) => {

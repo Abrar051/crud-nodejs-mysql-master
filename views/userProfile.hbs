@@ -213,16 +213,17 @@
             <a href="/updateProfile">
                 <button id="update" class="button button1">Update</button>
             </a>
-            <button id="delete" type="submit" class="button button2">Delete</button>
+            <a href="/deletePage">
+                <button id="delete"  class="button button2">Delete</button>
+            </a>
         </div>
 </div>
-
-
 
 
 <script src="/assets/js/jquery-3.3.1.js"></script>
 <script src="/assets/js/bootstrap.js"></script>
 <script>
+    var Id = $(this).data('Id');
     var User_Type = $(this).data('User_Type');
     var Age = $(this).data('Age');
     var Gender = $(this).data('Gender');

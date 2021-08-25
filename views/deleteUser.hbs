@@ -33,19 +33,21 @@
             font-weight: bold;
             color: #ffffff;
         }
+        .login-form text-center
+        {
+            text-align: center;
+            position: absolute;
+        }
     </style>
 </head>
 <body>
 <div class="login-form text-center">
-    <h1>Error</h1>
-    <p>
-    <p>No user found</p>
-    <p>Please Enter Correct User Name and Password</p>
-    </p>
-    <a href="/">
-        <button > Go Back</button>
-    </a>
-
+    <h1>Enter User and Password again to delete Data</h1>
+        <form action="deletePage" method="POST">
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <input type="submit" value="Delete">
+        </form>
 </div>
 </body>
 </html>
