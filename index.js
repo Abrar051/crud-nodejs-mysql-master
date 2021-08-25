@@ -93,15 +93,18 @@ app.post('/updatePage', function(request, response){
       if (results.length > 0) {
         conn.query('UPDATE UserInfo SET User_Type= ? , Age=? , Height=? WHERE User=? AND Password=?',[usertype,age,height,username,password], (error,results,fields)=>{
 
-          return response.render('userProfile', {
-            results: results
+          conn.query('SELECT * FROM UserInfo WHERE USER = ? AND Password = ?', [username, password], function(error, results, fields) {
+            if (results.length > 0) {
+              return response.render('userProfile', {
+                results: results
+              });
+            }
           });
         });
 
       } else {
         response.redirect('unAuth');
       }
-      //response.end();
     });
   }
 });
