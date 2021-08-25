@@ -4,7 +4,6 @@ const hbs = require('hbs');
 const bodyParser = require('body-parser');
 const mysql = require('mysql2');
 const app = express();
-
 var conn = mysql.createConnection({
   host: 'localhost',
   user: 'user',
@@ -27,6 +26,13 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/assets',express.static(__dirname + '/public'));
 
 
+const indexRouter = require('./routes/userRoutes');
+// const usersRouter = require('./routes/users');
+
+// app.get('/test/', customRoute);
+
+app.use('/test', indexRouter);
+// app.use('/users', usersRouter);
 /*app.get('/',(req, res) => {
   let sql = "SELECT * FROM UserInfo";
   let query = conn.query(sql, (err, results) => {
