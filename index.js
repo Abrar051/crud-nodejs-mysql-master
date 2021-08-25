@@ -87,11 +87,12 @@ app.post('/updatePage', function(request, response){
   let usertype = request.body.type;
   let age = request.body.age;
   let height = request.body.height;
+  let gender = request.body.gender;
   if (username && password) {
     conn.query('SELECT * FROM UserInfo WHERE USER = ? AND Password = ?', [username, password], (error, results, fields) =>{
 
       if (results.length > 0) {
-        conn.query('UPDATE UserInfo SET User_Type= ? , Age=? , Height=? WHERE User=? AND Password=?',[usertype,age,height,username,password], (error,results,fields)=>{
+        conn.query('UPDATE UserInfo SET User_Type= ? , Age=? , Height=? , Gender=? WHERE User=? AND Password=?',[usertype,age,height,gender,username,password], (error,results,fields)=>{
 
           conn.query('SELECT * FROM UserInfo WHERE USER = ? AND Password = ?', [username, password], function(error, results, fields) {
             if (results.length > 0) {
