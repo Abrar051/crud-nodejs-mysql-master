@@ -36,11 +36,15 @@ app.use('/assets',express.static(__dirname + '/public'));
     });
   });
 });*/
-//// changing here for login
+////opening page
+
+
+
+//// login option
 app.get('/', function(request, response) {
   response.render('login');
 });
-
+//authorize
 app.post('/auth', function(request, response) {
   console.log(request.body);
   let username = request.body.username;
@@ -61,11 +65,54 @@ app.post('/auth', function(request, response) {
       response.end();
     });
   } else {
-    response.send('Please enter Username and Password!');
+    response.send('Please enter valid Username and Password!');
     response.end();
   }
 });
 /////
+///register
+app.post('/register', function(request, response) {
+  response.render('registration');
+});
+
+
+
+//input registration data on database
+app.post ('/successfulRegister',function (request,response) {
+  console.log(request.body);
+  let username = request.body.username;
+  let password = request.body.password;
+  let usertype = request.body.type;
+  let age = request.body.age;
+  let height = request.body.height;
+  let gender = request.body.gender;
+
+  conn.query('INSERT INTO UserInfo SET User =?,Password=?,User_Type=?,Age=?,Gender=?,Height=?', [username, password,usertype,age,gender,height], function(error, results, fields) {
+    console.log(results);
+   // if (results.length()>0){
+      conn.query('SELECT * FROM UserInfo WHERE USER = ? AND Password = ?', [username, password], function(error, results, fields) {
+        if (results.length > 0) {
+            return response.render('userProfile', {
+            results: results
+          });
+        }
+      });
+    //}
+
+  });
+});
+
+
+
+
+
+
+
+
+
+
+
+
 
 //if username and pass is wrong go here
 app.get('/unAuth',(req, res) => {
@@ -79,36 +126,18 @@ app.get ('/updateProfile',(req,res)=>{
 });
 
 
+////rendering registration page
+
+app.get ('/registration',(req,res)=>{
+  res.render('registration');
+});
+
+
+/// delete user data
+
 app.get ('/deletePage',(req,res)=>{
   res.render('deleteUser');
 });
-
-///delete user
-app.post ('/deletePage',(request,respond)=> {
-  console.log(request.body);
-  let username = request.body.username;
-  let password = request.body.password;
-  if (username && password) {
-    conn.query('SELECT * FROM UserInfo WHERE USER = ? AND Password = ?', [username, password], (error, results, fields) => {
-
-      if (results.length > 0) {
-        conn.query('DELETE FROM UserInfo WHERE USER =? AND Password=?', [username,password], (error, results, fields) => {
-          respond.render('deletePage');
-        });
-
-      } else {
-        respond.redirect('unAuth');
-      }
-    });
-  }
-});
-
-
-
-
-
-
-
 
 
 ///get username and pass then update database with profile
@@ -145,7 +174,29 @@ app.post('/updatePage', function(request, response){
 
 ////update done
 
-/// delete user data
+
+///delete user
+app.post ('/deletePage',(request,respond)=> {
+  console.log(request.body);
+  let username = request.body.username;
+  let password = request.body.password;
+  if (username && password) {
+    conn.query('SELECT * FROM UserInfo WHERE USER = ? AND Password = ?', [username, password], (error, results, fields) => {
+
+      if (results.length > 0) {
+        conn.query('DELETE FROM UserInfo WHERE USER =? AND Password=?', [username,password], (error, results, fields) => {
+          respond.render('deletePage');
+        });
+
+      } else {
+        respond.redirect('unAuth');
+      }
+    });
+  }
+});
+
+
+
 
 
 
