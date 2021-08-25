@@ -49,17 +49,15 @@ app.post('/auth', function(request, response) {
     conn.query('SELECT * FROM UserInfo WHERE USER = ? AND Password = ?', [username, password], function(error, results, fields) {
       if (results.length > 0) {
 
-        //response.render('unAuth',)});
-         return response.render('userProfile', {
-           results: results
-         });
+        //response.redirect.render('unAuth',)});
+        return response.render('userProfile', {
+          results: results
+        });
 
       } else {
         response.redirect('unAuth');
 
       }
-
-      response.redirect('updateForm');
       response.end();
     });
   } else {
@@ -68,9 +66,46 @@ app.post('/auth', function(request, response) {
   }
 });
 /////
+
+//if username and pass is wrong go here
 app.get('/unAuth',(req, res) => {
 
-    res.render('unAuth',)});
+  res.render('unAuth',)});
+
+
+//rendering update page
+app.get ('/updateProfile',(req,res)=>{
+  res.render('dataUpdateForm');
+});
+
+///get username and pass then update database with profile
+
+app.post('/updatePage', function(request, response){
+  console.log(request.body);
+  let username = request.body.username;
+  let password = request.body.password;
+  let usertype = request.body.type;
+  let age = request.body.age;
+  let height = request.body.height;
+  if (username && password) {
+    conn.query('SELECT * FROM UserInfo WHERE USER = ? AND Password = ?', [username, password], (error, results, fields) =>{
+
+      if (results.length > 0) {
+        conn.query('UPDATE UserInfo SET User_Type= ? , Age=? , Height=? WHERE User=? AND Password=?',[usertype,age,height,username,password], (error,results,fields)=>{
+
+          return response.render('userProfile', {
+            results: results
+          });
+        });
+
+      } else {
+        response.redirect('unAuth');
+      }
+      //response.end();
+    });
+  }
+});
+
 
 app.get('/profileView',(req, res) => {
 
@@ -79,44 +114,18 @@ app.get('/profileView',(req, res) => {
         User_Type=req.body.User_Type;
         Age=req.body.Age;
 
-  });
+      });
   res.render('userProfile');
 });
 
-///update profile
-
-app.get('/updateProfile', function(request, response) {
-  response.render('updateForm');
-});
-//
-///////
-app.post('/updateUserInfo', function(request, response) {
-  console.log(request.body);
-  let email = request.body.email;
-  let name = request.body.name;
-  let password = request.body.password;
-  if (email && password) {
-    conn.query('SELECT * FROM UserInfo WHERE USER = ? AND Password = ?', [email, password], function(error, results, fields) {
-      if (results.length > 0) {
-        let sql = "UPDATE UserInfo SET User ="+req.body.email+"', User_type='"+req.body.name+"' WHERE Id="+req.body.id;
-
-        let query = conn.query(sql, (err, results) => {
-          if(err) throw err;
-          res.redirect('/profileView');
-        });
-      }
-      //response.redirect('updateForm');
-      response.end();
-    });
-  } else {
-    response.send('Please enter Username and Password!');
-    response.end();
-  }
-});
+//update profile
 
 
 
-//
+
+
+
+
 
 app.get('/productList',(req, res) => {
   let sql = "SELECT * FROM product";
@@ -148,7 +157,7 @@ app.get('/save',(req, res) => {
 
 
 app.post('/update',(req, res) => {
-  let sql = "UPDATE product SET product_name="+req.body.product_name+"', product_price='"+req.body.product_price+"' WHERE product_id="+req.body.id;
+  let sql = "UPDATE product SET product_name='"+req.body.product_name+"', product_price='"+req.body.product_price+"' WHERE product_id="+req.body.id;
   let query = conn.query(sql, (err, results) => {
     if(err) throw err;
     res.redirect('/');
@@ -165,6 +174,6 @@ app.post('/delete',(req, res) => {
 });
 
 
-app.listen(4000, () => {
-  console.log('Server is running at port 4000');
+app.listen(8000, () => {
+  console.log('Server is running at port 8000');
 });
