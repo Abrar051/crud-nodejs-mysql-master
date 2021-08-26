@@ -25,7 +25,7 @@ router.post('/', function(request, response) {
     response.render('registration');
 });
 
-router.get ('/successfulRegister',function (request,response) {
+router.post ('/successfulRegister',function (request,response) {
     console.log(request.body);
     let username = request.body.username;
     let password = request.body.password;

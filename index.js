@@ -61,7 +61,8 @@ app.use('/authenticate',indexRouterAuthenticate);
 app.post('/login');
 app.post('/auth');
 app.post('/register');
-app.post('/register/');
+app.post('/successfulRegister');
+app.post('/update');
 
 
 
@@ -134,17 +135,6 @@ app.post('/auth', function(request, response) {
 });*/
 
 
-
-
-
-
-
-
-
-
-
-
-
 //if username and pass is wrong go here
 app.get('/unAuth',(req, res) => {
 
@@ -152,16 +142,16 @@ app.get('/unAuth',(req, res) => {
 
 
 //rendering update page
-app.get ('/updateProfile',(req,res)=>{
+/*app.get ('/updateProfile',(req,res)=>{
   res.render('dataUpdateForm');
-});
+});*/
 
 
 ////rendering registration page
 
-app.get ('/registration',(req,res)=>{
+/*app.get ('/registration',(req,res)=>{
   res.render('registration');
-});
+});*/
 
 
 /// delete user data
@@ -173,7 +163,7 @@ app.get ('/deletePage',(req,res)=>{
 
 ///get username and pass then update database with profile
 
-app.post('/updatePage', function(request, response){
+/*app.post('/updatePage', function(request, response){
   console.log(request.body);
   let username = request.body.username;
   let password = request.body.password;
@@ -201,7 +191,7 @@ app.post('/updatePage', function(request, response){
       }
     });
   }
-});
+});*/
 
 ////update done
 
