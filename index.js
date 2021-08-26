@@ -27,11 +27,22 @@ app.use('/assets',express.static(__dirname + '/public'));
 
 
 const indexRouter = require('./routes/userRoutes');
+const indexRouter1 = require('./routes/createUser');
+const indexRouter2 = require('./routes/login');
+const indexRouterAuthenticate =require('./routes/authenticate');
+const indexRouter3 = require('./routes/updateUser');
+const indexRouter4 = require('./routes/deleteUser');
 // const usersRouter = require('./routes/users');
 
 // app.get('/test/', customRoute);
 
 app.use('/test', indexRouter);
+app.use('/register',indexRouter1);
+app.use('/login',indexRouter2);
+app.use('/update',indexRouter3);
+app.use('/delete',indexRouter4);
+app.use('/authenticate',indexRouterAuthenticate);
+
 // app.use('/users', usersRouter);
 /*app.get('/',(req, res) => {
   let sql = "SELECT * FROM UserInfo";
@@ -47,6 +58,14 @@ app.use('/test', indexRouter);
 
 
 //// login option
+app.post('/login');
+app.post('/auth');
+app.post('/register');
+app.post('/register/');
+
+
+
+/*
 app.get('/', function(request, response) {
   response.render('login');
 });
@@ -75,16 +94,22 @@ app.post('/auth', function(request, response) {
     response.end();
   }
 });
+*/
+
+
+
+
+
 /////
 ///register
-app.post('/register', function(request, response) {
+/*app.post('/register', function(request, response) {
   response.render('registration');
-});
+});*/
 
 
 
 //input registration data on database
-app.post ('/successfulRegister',function (request,response) {
+/*app.post ('/successfulRegister',function (request,response) {
   console.log(request.body);
   let username = request.body.username;
   let password = request.body.password;
@@ -106,7 +131,7 @@ app.post ('/successfulRegister',function (request,response) {
     //}
 
   });
-});
+});*/
 
 
 
