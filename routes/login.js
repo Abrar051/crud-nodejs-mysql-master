@@ -16,10 +16,6 @@ router.get('/', function(req, res) {
 });
 
 // Define the about route
-router.get('/about', function(req, res) {
-    res.send('About us');
-});
-
 router.post('/auth', function(request, response) {
     console.log(request.body);
     let username = request.body.username;
