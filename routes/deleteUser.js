@@ -39,7 +39,7 @@ router.post ('/deletePage',(request,respond)=> {
                 });
 
             } else {
-                respond.redirect('unAuth');
+                respond.render('unAuth');
             }
         });
     }

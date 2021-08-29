@@ -39,7 +39,7 @@ app.use('/login',routerLogin);
 app.use('/update',routerUpdate);
 app.use('/delete',routerDelete);
 app.use('/authenticate',indexRouterAuthenticate);
-app.use('/update/:id',routerUpdate);
+app.use('/update',routerUpdate);
 
 // app.post('/login');
 // app.post('/auth');
