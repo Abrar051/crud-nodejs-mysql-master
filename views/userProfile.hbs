@@ -210,7 +210,7 @@
         </div>
     </div>
         <div class="btn-holder">
-            <a href="/update/{{Id}}">
+            <a href="/update/{{results.0.Id}}">
                 <button id="update" class="button button1">Update</button>
             </a>
             <a href="/delete">
@@ -223,6 +223,7 @@
 <script src="/assets/js/jquery-3.3.1.js"></script>
 <script src="/assets/js/bootstrap.js"></script>
 <script>
+    let id = $(this).data('Id');
     var Id = $(this).data('Id');
     var User_Type = $(this).data('User_Type');
     var Age = $(this).data('Age');
