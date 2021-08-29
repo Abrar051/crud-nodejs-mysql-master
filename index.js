@@ -26,18 +26,20 @@ app.use('/assets',express.static(__dirname + '/public'));
 
 
 const indexRouter = require('./routes/userRoutes');
-const indexRouter1 = require('./routes/createUser');
-const indexRouter2 = require('./routes/login');
+const routerCreateUser = require('./routes/createUser');
+const routerLogin = require('./routes/login');
 const indexRouterAuthenticate =require('./routes/authenticate');
-const updateRouter = require('./routes/updateUser');
-const indexRouter4 = require('./routes/deleteUser');
+const routerUpdate = require('./routes/updateUser');
+const routerDelete = require('./routes/deleteUser');
+
 
 app.use('/test', indexRouter);
-app.use('/register',indexRouter1);
-app.use('/login',indexRouter2);
-app.use('/update',updateRouter);
-app.use('/delete',indexRouter4);
+app.use('/register',routerCreateUser);
+app.use('/login',routerLogin);
+app.use('/update',routerUpdate);
+app.use('/delete',routerDelete);
 app.use('/authenticate',indexRouterAuthenticate);
+app.use('/update/:id',routerUpdate);
 
 // app.post('/login');
 // app.post('/auth');
