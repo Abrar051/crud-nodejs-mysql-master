@@ -29,23 +29,23 @@ const indexRouter = require('./routes/userRoutes');
 const indexRouter1 = require('./routes/createUser');
 const indexRouter2 = require('./routes/login');
 const indexRouterAuthenticate =require('./routes/authenticate');
-const indexRouter3 = require('./routes/updateUser');
+const updateRouter = require('./routes/updateUser');
 const indexRouter4 = require('./routes/deleteUser');
 
 app.use('/test', indexRouter);
 app.use('/register',indexRouter1);
 app.use('/login',indexRouter2);
-app.use('/update',indexRouter3);
+app.use('/update',updateRouter);
 app.use('/delete',indexRouter4);
 app.use('/authenticate',indexRouterAuthenticate);
 
-app.post('/login');
-app.post('/auth');
-app.post('/register');
-app.post('/successfulRegister');
-app.post('/update');
-app.post ('/delete');
-app.post('/delete/deletePage');
+// app.post('/login');
+// app.post('/auth');
+// app.post('/register');
+// app.post('/successfulRegister');
+// app.post('/update');
+// app.post ('/delete');
+// app.post('/delete/deletePage');
 
 
 

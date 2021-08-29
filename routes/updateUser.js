@@ -19,6 +19,25 @@ router.get('/about', function(req, res) {
     res.send('About update');
 });
 
+
+
+router.get ('/:id',(req,res)=>{
+    let id = req.params.id;
+    let query = "SELECT * from UserInfo  where Id = ? ";
+    conn.query(query, [id], (err, results, fields)=>{
+        if(results.length ===1){
+            res.render('dataUpdateForm', {
+                result: results[0]
+            });
+
+        }
+        //res.render('dataUpdateForm', results[0]);
+        //res.json(typeof results[0])
+    });
+});
+
+
+
 router.get ('/',(req,res)=>{
     res.render('dataUpdateForm');
 });
