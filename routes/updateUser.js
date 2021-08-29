@@ -65,7 +65,7 @@ router.post('/updatePage', function(request, response){
                 });
 
             } else {
-                response.redirect('unAuth');
+                response.render('unAuth');
             }
         });
     }
