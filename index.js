@@ -11,7 +11,6 @@ var conn = mysql.createConnection({
   database: 'mydb'
 });
 
-
 conn.connect((err) =>{
   if(err) throw err;
   console.log('Mysql Connected');
@@ -48,9 +47,6 @@ app.post('/update');
 app.post ('/delete');
 app.post('/delete/deletePage');
 
-app.get('/unAuth',(req, res) => {
-
-  res.render('unAuth',)});
 
 
 app.listen(8000, () => {

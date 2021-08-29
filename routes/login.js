@@ -41,4 +41,8 @@ router.post('/auth', function(request, response) {
     }
 });
 
+router.get ('/unAuth',function (request,response){
+    response.render('unAuth');
+});
+
 module.exports = router;
