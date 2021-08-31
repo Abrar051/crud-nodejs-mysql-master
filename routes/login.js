@@ -23,9 +23,8 @@ let session = require('express-session')({
 
     name: '_es_demo', // The name of the cookie
     secret: '1234', // The secret is required, and is used for signing cookies
-    cookie: { maxAge: oneDay },
     resave: false, // Force save of session for each request.
-    saveUninitialized: true // Save a session that is new, but has not been modified
+    saveUninitialized: false // Save a session that is new, but has not been modified
 })
 app.use(session);
 
@@ -42,24 +41,39 @@ app.use(cookieParser());
 // let session = require('express-session');
 
 // Define the home page route
-router.get('/',  function(request, response) {
+router.get('/',  session,function(request, response) {
     //check if session found
-    //if found
-    let username=session.user;
-    let password=session.pass;
-    let id = session.sessionId;
-    console.log(session);
-        if (session.user && session.pass) {
+
+    if (!request.session.user) {
+        response.render('login');
+        // request.session.count = 0;
+    }
+    else {
+        let username = request.session.user.User;
+        let password = request.session.user.Password;
+        if (username && password) {
             conn.query('SELECT * FROM UserInfo WHERE USER = ? AND Password = ?', [username, password], function (error, results, fields) {
-                return response.render('userProfile', {
-                    results: results
-                });
+                if (results.length > 0) {
+
+                    //response.redirect.render('unAuth',)});
+                    return response.render('userProfile', {
+                        results: results
+                    });
+
+                }
             });
         }
-    else
-    {
-        response.render('login');
+
     }
+
+    /*else if (request.session.count == 1) {
+        //session.destroy();
+        response.render('login');
+    }*/
+    request.session.count += 1;
+
+    // respond with the session object
+
 });
 
 // Define the about route
@@ -75,16 +89,8 @@ router.post('/auth',session, function(request, response) {
     if (username && password) {
         conn.query('SELECT * FROM UserInfo WHERE USER = ? AND Password = ?', [username, password], function(error, results, fields) {
             if (results.length > 0) {
-                session=request.session;
-                request.session.loggedin = true;
-                session.user=request.body.username;
-                session.pass=request.body.password;
-                session.browserId = session.sessionId;
-                console.log(session.pass);
-                console.log(session.user);
-                console.log(session);
-                console.log(session.count);
-                session.count++;
+                //session=request.session;
+                request.session.user = results[0];
                 return response.render('userProfile', {
                     results: results,
                 });
