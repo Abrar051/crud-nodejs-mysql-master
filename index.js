@@ -4,6 +4,10 @@ const hbs = require('hbs');
 const bodyParser = require('body-parser');
 const mysql = require('mysql2');
 const app = express();
+const session = require('express-session');
+const cookieParser = require("cookie-parser");
+const item = require("session-storage")
+const sessionStorage = require('session-storage');
 var conn = mysql.createConnection({
   host: 'localhost',
   user: 'user',

@@ -10,11 +10,15 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.18.3",
-    "express": "^4.16.3",
+    "cookie-parser": "^1.4.5",
+    "express": "^4.17.1",
     "express-session": "^1.17.2",
     "hbs": "^4.0.1",
+    "i": "^0.3.6",
     "install": "^0.13.0",
     "mysql": "^2.16.0",
-    "nodemon": "^2.0.12"
+    "nodemon": "^2.0.12",
+    "session-storage": "^1.0.1",
+    "sessionstorage-for-nodejs": "^1.0.0"
   }
 }
