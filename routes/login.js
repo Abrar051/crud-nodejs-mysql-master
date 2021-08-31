@@ -6,6 +6,8 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const item = require("session-storage")
 const sessionStorage = require('session-storage');
+
+
 var router = express.Router();
 const conn = mysql.createConnection({
     host: 'localhost',
@@ -21,9 +23,9 @@ let session = require('express-session')({
 
     name: '_es_demo', // The name of the cookie
     secret: '1234', // The secret is required, and is used for signing cookies
+    cookie: { maxAge: oneDay },
     resave: false, // Force save of session for each request.
-    saveUninitialized: false // Save a session that is new, but has not been modified
-
+    saveUninitialized: true // Save a session that is new, but has not been modified
 })
 app.use(session);
 
@@ -40,26 +42,32 @@ app.use(cookieParser());
 // let session = require('express-session');
 
 // Define the home page route
-router.get('/',session,  function(req, res) {
-    //let session=req.session;
-    // console.log(session.count);
-    if (!req.session.user) {
-        req.session.user = {
-            'username': result.userName;
-        };
+router.get('/',  function(request, response) {
+    //check if session found
+    //if found
+    let username=session.user;
+    let password=session.pass;
+    let id = session.sessionId;
+    console.log(session);
+        if (session.user && session.pass) {
+            conn.query('SELECT * FROM UserInfo WHERE USER = ? AND Password = ?', [username, password], function (error, results, fields) {
+                return response.render('userProfile', {
+                    results: results
+                });
+            });
+        }
+    else
+    {
+        response.render('login');
     }
-    req.session.count += 1;
-
-    // send info as json
-    res.json(req.session.count);
-    //res.render('login');
 });
 
 // Define the about route
-router.post('/auth', function(request, response) {
+router.post('/auth',session, function(request, response) {
     console.log(request.body);
     let username = request.body.username;
     let password = request.body.password;
+    let browserId = request.sessionId;
     let userInfo = {
         user:this.username,
         pass:this.pass,
@@ -67,39 +75,40 @@ router.post('/auth', function(request, response) {
     if (username && password) {
         conn.query('SELECT * FROM UserInfo WHERE USER = ? AND Password = ?', [username, password], function(error, results, fields) {
             if (results.length > 0) {
-
-                //response.redirect.render('unAuth',)});
-                //request.session.loggedin = true;
-                //this.user.username=username;
-                //request.session.username = username;
                 session=request.session;
-                //session.user=request.body.username;
-                //session.pass=request.body.password;
+                request.session.loggedin = true;
+                session.user=request.body.username;
+                session.pass=request.body.password;
+                session.browserId = session.sessionId;
+                console.log(session.pass);
+                console.log(session.user);
                 console.log(session);
+                console.log(session.count);
+                session.count++;
                 return response.render('userProfile', {
-                    //storage:item(username,password),
-                    //sessionStorage:session.username=username,
-                    //request:sessionStorage,
-                    //window:sessionStorage.setItem(username,password),
-                    //window:localStorage.setItem("data",JSON.stringify(userInfo)),
-                    results: results
-
+                    results: results,
                 });
-
             } else {
                 response.redirect('unAuth');
-
             }
             response.end();
         });
-    } else {
+    }
+
+    else {
         response.send('Please enter valid Username and Password!');
         response.end();
     }
 });
 
+
+
 router.get ('/unAuth',function (request,response){
     response.render('unAuth');
 });
+
+
+
+
 
 module.exports = router;
