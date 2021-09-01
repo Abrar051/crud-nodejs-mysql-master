@@ -25,23 +25,21 @@ router.get('/about', function(req, res) {
 
 function checkIfAuthenticated(req, res, next){
     if(!req.session.user){
-        console.log('i was called')
+        console.log('No Session found')
         if (!req.session.user)//// this function is not getting session
         {
             res.render('unAuth');
 
         }
     }else{
-        console.log('nope it was me')
+        console.log('Session found')
         next();
     }
 }
 
 
 router.get ('/:id', checkIfAuthenticated, (request,response)=>{
-    console.log('yaay')
-    let id = request.params.id;
-    let user = request.session.username;
+    console.log('Entering session Id : '+request.session.user.Id);
     let query = "SELECT * from UserInfo  where Id = ? ";
         conn.query(query, [request.session.user.Id], (err, results, fields)=>{
             if(results.length ==1){
@@ -59,6 +57,9 @@ router.get ('/:id', checkIfAuthenticated, (request,response)=>{
 router.get ('/',(req,res)=>{
     res.render('dataUpdateForm');
 });
+
+
+
 
 router.post('/updatePage', function(request, response){
     console.log(request.body);

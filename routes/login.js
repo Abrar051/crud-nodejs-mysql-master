@@ -32,20 +32,33 @@ app.use(cookieParser());
 // let session = require('express-session');
 
 // Define the home page route
-router.get('/',  function(request, response) {
+
+
+
+function checkIfAuthenticated (req, res, next){
+    if(!req.session.user){
+        console.log('No user session found')
+        if (!req.session.user)//// this function is not getting session
+        {
+            res.render('login');
+        }
+    }else{
+        console.log('User session found')
+        next();
+    }
+}
+
+
+
+
+router.get('/', checkIfAuthenticated, function(request, response) {
     //check if session found
 
-    if (!request.session.user) {
-        response.render('login');
-        // request.session.count = 0;
-    }
-    else {
         let username = request.session.user.User;
         let password = request.session.user.Password;
         if (username && password) {
             conn.query('SELECT * FROM UserInfo WHERE USER = ? AND Password = ?', [username, password], function (error, results, fields) {
                 if (results.length > 0) {
-
                     //response.redirect.render('unAuth',)});
                     return response.render('userProfile', {
                         results: results
@@ -55,20 +68,15 @@ router.get('/',  function(request, response) {
             });
         }
 
-    }
-
-    /*else if (request.session.count == 1) {
-        //session.destroy();
-        response.render('login');
-    }*/
     request.session.count += 1;
 
-    // respond with the session object
 
 });
 
+
+
 // Define the about route
-router.post('/auth', function(request, response) {
+router.post('/auth',function(request, response) {
     console.log(request.body);
     let username = request.body.username;
     let password = request.body.password;
