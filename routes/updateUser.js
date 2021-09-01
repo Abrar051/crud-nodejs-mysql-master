@@ -23,21 +23,26 @@ router.get('/about', function(req, res) {
 });
 
 
+function checkIfAuthenticated(req, res, next){
+    if(!req.session.user){
+        console.log('i was called')
+        if (!req.session.user)//// this function is not getting session
+        {
+            res.render('unAuth');
 
-router.get ('/:id',(request,response)=>{
+        }
+    }else{
+        console.log('nope it was me')
+        next();
+    }
+}
+
+
+router.get ('/:id', checkIfAuthenticated, (request,response)=>{
+    console.log('yaay')
     let id = request.params.id;
     let user = request.session.username;
     let query = "SELECT * from UserInfo  where Id = ? ";
-    //console.log(request.session);
-    console.log(request.session.user);
-    if (!request.session.user)//// this function is not getting session
-    {
-        response.render('unAuth');
-
-    }
-    else
-    {
-        console.log(request.session);
         conn.query(query, [request.session.user.Id], (err, results, fields)=>{
             if(results.length ==1){
                 //request.session.user=results[0];
@@ -45,10 +50,7 @@ router.get ('/:id',(request,response)=>{
                     result: results[0]
                 });
             }
-            //res.render('dataUpdateForm', results[0]);
-            //res.json(typeof results[0])
         });
-    }
 
 });
 

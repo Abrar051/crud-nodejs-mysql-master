@@ -18,6 +18,7 @@
     "i": "^0.3.6",
     "install": "^0.13.0",
     "mysql": "^2.16.0",
+    "node-cache": "^5.1.2",
     "nodemon": "^2.0.12",
     "redis": "^3.1.2",
     "session-storage": "^1.0.1",
