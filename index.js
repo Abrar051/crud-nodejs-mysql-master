@@ -4,17 +4,24 @@ const hbs = require('hbs');
 const bodyParser = require('body-parser');
 const mysql = require('mysql2');
 const app = express();
-const session = require('express-session');
+//const session = require('express-session');
 const cookieParser = require("cookie-parser");
 const item = require("session-storage")
-const sessionStorage = require('session-storage');
+//const sessionStorage = require('session-storage');
 var conn = mysql.createConnection({
   host: 'localhost',
   user: 'user',
   password: 'p',
   database: 'mydb'
 });
+let session = require('express-session')({
 
+  name: '_es_demo', // The name of the cookie
+  secret: '1234', // The secret is required, and is used for signing cookies
+  resave: false, // Force save of session for each request.
+  saveUninitialized: false // Save a session that is new, but has not been modified
+})
+app.use(session);
 conn.connect((err) =>{
   if(err) throw err;
   console.log('Mysql Connected');

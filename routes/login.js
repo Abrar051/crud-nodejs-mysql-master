@@ -19,15 +19,6 @@ const conn = mysql.createConnection({
 
 const oneDay = 1000 * 60 * 60 * 24;
 
-let session = require('express-session')({
-
-    name: '_es_demo', // The name of the cookie
-    secret: '1234', // The secret is required, and is used for signing cookies
-    resave: false, // Force save of session for each request.
-    saveUninitialized: false // Save a session that is new, but has not been modified
-})
-app.use(session);
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -41,7 +32,7 @@ app.use(cookieParser());
 // let session = require('express-session');
 
 // Define the home page route
-router.get('/',  session,function(request, response) {
+router.get('/',  function(request, response) {
     //check if session found
 
     if (!request.session.user) {
@@ -77,7 +68,7 @@ router.get('/',  session,function(request, response) {
 });
 
 // Define the about route
-router.post('/auth',session, function(request, response) {
+router.post('/auth', function(request, response) {
     console.log(request.body);
     let username = request.body.username;
     let password = request.body.password;
