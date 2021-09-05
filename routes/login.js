@@ -44,6 +44,18 @@ client.on('connect', function (err) {
 });
 
 
+/*app.use(session({
+    store: new redisStore({ client: client }),
+    secret: 'topsecret~!@#$%^&*',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        sameSite: true,
+        secure: false,
+        httpOnly: false,
+        maxAge: 1000 * 60 * 10 // 10 minutes
+    }
+}))*/
 
 
 
@@ -133,7 +145,14 @@ router.post('/auth',function(request, response) {
     }
 });
 
-
+router.get('/logout', (req, res) => {
+    req.session.destroy(err => {
+        if (err) {
+            return console.log(err);
+        }
+        res.redirect('/')
+    });
+});
 
 router.get ('/unAuth',function (request,response){
     response.render('unAuth');

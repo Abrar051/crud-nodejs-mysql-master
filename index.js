@@ -8,20 +8,50 @@ const app = express();
 const cookieParser = require("cookie-parser");
 const item = require("session-storage")
 //const sessionStorage = require('session-storage');
+const session = require('express-session');
+const redis = require('redis');
+const client = redis.createClient();
+const redisStore = require('connect-redis')(session);
+
+
+
 var conn = mysql.createConnection({
   host: 'localhost',
   user: 'user',
   password: 'p',
   database: 'mydb'
 });
-let session = require('express-session')({
+
+
+/*let session = require('express-session')({
 
   name: '_es_demo', // The name of the cookie
   secret: '1234', // The secret is required, and is used for signing cookies
   resave: false, // Force save of session for each request.
   saveUninitialized: false // Save a session that is new, but has not been modified
-})
-app.use(session);
+})*/
+
+
+
+
+app.use(session({
+  store: new redisStore({ client: client }),
+  secret: 'topsecret~!@#$%^&*',
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    sameSite: true,
+    secure: false,
+    httpOnly: false,
+    maxAge: 1000 * 60 * 10 // 10 minutes
+  }
+}))
+
+
+
+
+
+//app.use(session);
 conn.connect((err) =>{
   if(err) throw err;
   console.log('Mysql Connected');
@@ -42,6 +72,7 @@ const routerLogin = require('./routes/login');
 const indexRouterAuthenticate =require('./routes/authenticate');
 const routerUpdate = require('./routes/updateUser');
 const routerDelete = require('./routes/deleteUser');
+const routerLogout = require('./routes/logout');
 
 
 app.use('/test', indexRouter);
@@ -51,6 +82,7 @@ app.use('/update',routerUpdate);
 app.use('/delete',routerDelete);
 app.use('/authenticate',indexRouterAuthenticate);
 app.use('/update',routerUpdate);
+app.use('/logout',routerLogout);
 
 // app.post('/login');
 // app.post('/auth');

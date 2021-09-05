@@ -131,9 +131,10 @@
             text-align: center;
             text-decoration: none;
             display: inline-block;
-            margin: 4px 2px;
+            margin: -4px -1px;
             cursor: pointer;
         }
+        .button0 {font-size: 30px; }
         .button1 {font-size: 30px;}
         .button2 {font-size: 30px;}
 
@@ -210,6 +211,9 @@
         </div>
     </div>
         <div class="btn-holder">
+            <a href="/logout">
+                <button id="logout" class ="button button0">Logout</button>
+            </a>
             <a href="/update/{{results.0.Id}}">
                 <button id="update" class="button button1">Update</button>
             </a>
