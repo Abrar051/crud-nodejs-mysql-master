@@ -4,8 +4,10 @@ const mysql = require('mysql2');
 // let session = require('express-session');
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
-const item = require("session-storage")
-const sessionStorage = require('session-storage');
+const session = require('express-session');
+const redis = require('redis');
+const client = redis.createClient();
+const redisStore = require('connect-redis')(session);
 
 
 var router = express.Router();
@@ -31,7 +33,32 @@ app.use(cookieParser());
 //router(app);
 // let session = require('express-session');
 
+
+
+client.on('connect', function (err) {
+    if (err) {
+        console.log('Could not establish a connection with Redis. ' + err);
+    } else {
+        console.log('Connected to Redis successfully!');
+    }
+});
+
+
+
+
+
+
+
 // Define the home page route
+
+
+
+
+
+
+
+////////////cache redis system
+
 
 
 
