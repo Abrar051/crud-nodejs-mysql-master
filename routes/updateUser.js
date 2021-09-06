@@ -39,7 +39,7 @@ function checkIfAuthenticated(req, res, next){
 }
 
 
-router.get ('/:id', checkIfAuthenticated, (request,response)=>{
+/*router.get ('/:id', checkIfAuthenticated, (request,response)=>{
     console.log('Entering session Id : '+request.session.user.Id);
     cache.put (request.session.user.Id,JSON.stringify(request.session.user));
 
@@ -58,7 +58,28 @@ router.get ('/:id', checkIfAuthenticated, (request,response)=>{
 
     console.log(cache.get(request.session.user.Id))
 
+});*/
+
+// new update style
+router.get ('/:id', checkIfAuthenticated, (request,response,results)=>{
+    console.log('Entering session Id : '+request.session.user.Id);
+    cache.put (request.session.user.Id,JSON.stringify(request.session.user));
+    results[0]=request.session.user;
+    response.render('dataUpdateForm', {
+        result: results[0]
+        //console.log (results[0]);
+    });
+    //console.log(results[0].User)
+    console.log(cache.get(request.session.user.Id))
 });
+
+
+
+
+
+
+
+
 
 router.post ('/jsonData',(request,response)=>{
    console.log(cache.get(request.session.user.Id).Id);
