@@ -9,6 +9,12 @@ const redis = require('redis');
 const client = redis.createClient();
 const redisStore = require('connect-redis')(session);
 const router = express.Router();
+const nodeCache = require( "node-cache" );
+const myCache = new nodeCache( { stdTTL: 100, checkperiod: 120 } );
+const cache = require('memory-cache');
+
+
+
 const conn = mysql.createConnection({
     host: 'localhost',
     user: 'user',
@@ -33,10 +39,12 @@ app.use(cookieParser());
 
 
 router.get('/', (request, response) => {
+
     request.session.destroy(err => {
         if (err) {
             return console.log(err);
         }
+        //cache.clear();
         response.render('login');
     });
 });

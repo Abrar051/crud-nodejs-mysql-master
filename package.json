@@ -11,6 +11,8 @@
   "dependencies": {
     "axios": "^0.21.1",
     "body-parser": "^1.18.3",
+    "cache": "^2.3.1",
+    "cached-request": "^3.0.0",
     "connect-redis": "^6.0.0",
     "cookie-parser": "^1.4.5",
     "express": "^4.17.1",
@@ -18,12 +20,18 @@
     "hbs": "^4.0.1",
     "i": "^0.3.6",
     "install": "^0.13.0",
+    "memory-cache": "^0.2.0",
     "mysql": "^2.16.0",
     "node-cache": "^5.1.2",
     "nodemon": "^2.0.12",
     "redis": "^3.1.2",
+    "request": "^2.88.2",
+    "request-http-cache": "^1.1.0",
     "session": "^0.1.0",
     "session-storage": "^1.0.1",
     "sessionstorage-for-nodejs": "^1.0.0"
+  },
+  "devDependencies": {
+    "flush-cache": "^1.0.1"
   }
 }

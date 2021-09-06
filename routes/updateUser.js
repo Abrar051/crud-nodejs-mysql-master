@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const app = express();
 const mysql = require('mysql2');
+const cache = require('memory-cache');
 //const session = require('express-session');
 var conn = mysql.createConnection({
     host: 'localhost',
@@ -24,7 +25,7 @@ router.get('/about', function(req, res) {
 
 
 function checkIfAuthenticated(req, res, next){
-    if(!req.session.user){
+    if(!req.session.user.Id){
         console.log('No Session found')
         if (!req.session.user)//// this function is not getting session
         {
@@ -40,16 +41,27 @@ function checkIfAuthenticated(req, res, next){
 
 router.get ('/:id', checkIfAuthenticated, (request,response)=>{
     console.log('Entering session Id : '+request.session.user.Id);
-    let query = "SELECT * from UserInfo  where Id = ? ";
+    cache.put (request.session.user.Id,JSON.stringify(request.session.user));
+
+        let query = "SELECT * from UserInfo  where Id = ? ";
         conn.query(query, [request.session.user.Id], (err, results, fields)=>{
             if(results.length ==1){
-                //request.session.user=results[0];
+
                 response.render('dataUpdateForm', {
                     result: results[0]
+                    //console.log (results[0]);
                 });
+                //console.log(results[0].User)
+
             }
         });
 
+    console.log(cache.get(request.session.user.Id))
+
+});
+
+router.post ('/jsonData',(request,response)=>{
+   console.log(cache.get(request.session.user.Id).Id);
 });
 
 

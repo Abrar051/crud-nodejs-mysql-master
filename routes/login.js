@@ -1,14 +1,18 @@
-var express = require('express');
+const express = require('express');
 const app = express();
 const mysql = require('mysql2');
-// let session = require('express-session');
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const session = require('express-session');
 const redis = require('redis');
 const client = redis.createClient();
+const request = require('request');
+const cachedRequest = require('cached-request');
+const cacheDirectory = "/tmp/cache";
 const redisStore = require('connect-redis')(session);
-
+const nodeCache = require( "node-cache" );
+const myCache = new nodeCache( { stdTTL: 100, checkperiod: 120 });
+const cache = require('memory-cache');
 
 var router = express.Router();
 const conn = mysql.createConnection({
@@ -76,16 +80,26 @@ client.on('connect', function (err) {
 
 function checkIfAuthenticated (req, res, next){
     if(!req.session.user){
-        console.log('No user session found')
+        console.log('No user session found');
         if (!req.session.user)//// this function is not getting session
         {
             res.render('login');
         }
     }else{
-        console.log('User session found')
+        console.log('User session found');
+        console.log(req.session.user);
+        cache.put(req.session.user.Id,JSON.stringify(req.session.user));
+        console.log (cache.get(req.session.user.Id));
         next();
     }
 }
+
+
+
+function dataInRedis (request , response, next){
+
+}
+
 
 
 
@@ -95,6 +109,8 @@ router.get('/', checkIfAuthenticated, function(request, response) {
 
         let username = request.session.user.User;
         let password = request.session.user.Password;
+        //let userCache = cache.get('userCache');
+        //let passCache = cache.get('passCache');
         if (username && password) {
             conn.query('SELECT * FROM UserInfo WHERE USER = ? AND Password = ?', [username, password], function (error, results, fields) {
                 if (results.length > 0) {
@@ -102,15 +118,43 @@ router.get('/', checkIfAuthenticated, function(request, response) {
                     return response.render('userProfile', {
                         results: results
                     });
-
                 }
             });
         }
+        /*else if ((cache.get(request.session.user.Id)==null) & (username && password))
+        {
+            conn.query('SELECT * FROM UserInfo WHERE USER = ? AND Password = ?', [username, password], function (error, results, fields) {
+                if (results.length > 0) {
+                    //response.redirect.render('unAuth',)});
+                    return response.render('userProfile', {
+                        results: results
+                    });
+                }
+            });
+        }*/
+
 
     request.session.count += 1;
 
 
 });
+
+router.get('/cached-users', (req, res) => {
+    if (req.session.user==null)
+    {
+        console.log('No user found');
+        res.render('unAuth');
+    }
+    else
+    {
+        console.log(cache.get(req.session.user.Id));
+    }
+
+
+});
+
+
+
 
 
 

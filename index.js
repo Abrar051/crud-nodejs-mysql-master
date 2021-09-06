@@ -7,7 +7,7 @@ const app = express();
 //const session = require('express-session');
 const cookieParser = require("cookie-parser");
 const item = require("session-storage")
-//const sessionStorage = require('session-storage');
+const sessionStorage = require('session-storage');
 const session = require('express-session');
 const redis = require('redis');
 const client = redis.createClient();
@@ -23,6 +23,8 @@ var conn = mysql.createConnection({
 });
 
 
+
+
 /*let session = require('express-session')({
 
   name: '_es_demo', // The name of the cookie
@@ -32,6 +34,8 @@ var conn = mysql.createConnection({
 })*/
 
 
+
+////use this if putting session on redis store
 
 
 app.use(session({
