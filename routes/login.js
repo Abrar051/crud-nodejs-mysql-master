@@ -48,20 +48,6 @@ client.on('connect', function (err) {
 });
 
 
-/*app.use(session({
-    store: new redisStore({ client: client }),
-    secret: 'topsecret~!@#$%^&*',
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-        sameSite: true,
-        secure: false,
-        httpOnly: false,
-        maxAge: 1000 * 60 * 10 // 10 minutes
-    }
-}))*/
-
-
 
 
 
@@ -88,7 +74,7 @@ function checkIfAuthenticated (req, res, next){
     }else{
         console.log('User session found');
         console.log(req.session.user);
-        cache.put(req.session.user.Id,JSON.stringify(req.session.user));
+        cache.put(req.session.user.Id,req.session.user);
         console.log (cache.get(req.session.user.Id));
         next();
     }
@@ -109,35 +95,19 @@ router.get('/', checkIfAuthenticated, function(request, response) {
 
         let username = request.session.user.User;
         let password = request.session.user.Password;
-        //let userCache = cache.get('userCache');
-        //let passCache = cache.get('passCache');
         if (username && password) {
             conn.query('SELECT * FROM UserInfo WHERE USER = ? AND Password = ?', [username, password], function (error, results, fields) {
                 if (results.length > 0) {
-                    //response.redirect.render('unAuth',)});
                     return response.render('userProfile', {
                         results: results
                     });
                 }
             });
         }
-        /*else if ((cache.get(request.session.user.Id)==null) & (username && password))
-        {
-            conn.query('SELECT * FROM UserInfo WHERE USER = ? AND Password = ?', [username, password], function (error, results, fields) {
-                if (results.length > 0) {
-                    //response.redirect.render('unAuth',)});
-                    return response.render('userProfile', {
-                        results: results
-                    });
-                }
-            });
-        }*/
-
-
     request.session.count += 1;
-
-
 });
+
+
 
 router.get('/cached-users', (req, res) => {
     if (req.session.user==null)

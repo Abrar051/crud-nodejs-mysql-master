@@ -34,6 +34,7 @@ function checkIfAuthenticated(req, res, next){
         }
     }else{
         console.log('Session found')
+        cache.put (req.session.user.Id,req.session.user);
         next();
     }
 }
@@ -60,16 +61,16 @@ function checkIfAuthenticated(req, res, next){
 
 });*/
 
-// new update style
+
+
+// new update style using cache
 router.get ('/:id', checkIfAuthenticated, (request,response,results)=>{
     console.log('Entering session Id : '+request.session.user.Id);
-    cache.put (request.session.user.Id,JSON.stringify(request.session.user));
-    results[0]=request.session.user;
+    results[0]=cache.get(request.session.user.Id);
+    console.log(results[0]);
     response.render('dataUpdateForm', {
         result: results[0]
-        //console.log (results[0]);
     });
-    //console.log(results[0].User)
     console.log(cache.get(request.session.user.Id))
 });
 
